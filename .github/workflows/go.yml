@@ -1,0 +1,29 @@
+name: Go CI
+
+on:
+  push:
+    branches: [ "main" ]   # Запускать при пуше в main
+  pull_request:
+    branches: [ "main" ]   # Проверка PR
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'   # Укажи свою версию Go
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests
+        run: go test -v ./...
